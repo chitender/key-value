@@ -41,6 +41,15 @@ def get_all_report():
   for document in documents:
     output.append({'key': document['key'], 'value': document['value'], 'subscribers': document['subscribers']})
   return jsonify({'key-value lists': {'result' : output}})
+@app.route('/list/keys/<string:key>', methods=['GET'])
+def get_key(key):
+  stats = mongo.db.object
+  documents = stats.find_one({'key': key},{"key":1, "value":1, "subscribers":1,"_id": False})
+  print (documents)
+  output = []
+  output.append({'key': documents['key'], 'value': documents['value'], 'subscribers': documents['subscribers']})
+  return jsonify({'key-value lists': {'result' : output}})
+
 
 @app.route('/create', methods=['POST'])
 def add_report():
