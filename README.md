@@ -15,6 +15,15 @@ SMTP_PORT = 465
 SENDER_EMAIL = "chitenderkumar.16@gmail.com"
 SMTP_PASSWORD = "test123"
 ```
+
+### building docker image
+```
+sudo docker build .
+```
+## run docker image
+```
+sudo docker run --env MONGO_HOST=192.168.29.59 --env MONGO_PORT=27017 --env MONGO_DB=data --env SMTP_HOST="smtp.gmail.com" --env SENDER_EMAIL="chitenderkumar.16@gmail.com" --env SMTP_PASSWORD="XXXXXX" --env SMTP_PORT="465" BUILD_DOCKER_IMAGE_ID
+```
 ### List last 50 key values
 ```
 curl http://localhost:80/list
