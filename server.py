@@ -16,6 +16,10 @@ app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'data'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/data'
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = 465
+SENDER_EMAIL = "chitenderkumar.16@gmail.com"
+SMTP_PASSWORD = "test123"
 
 mongo = PyMongo(app)
 
@@ -70,11 +74,11 @@ def update_report():
     },upsert=True
   )
   ######## Mailing
-  port = 465  # For SSL
-  smtp_server = "smtp.gmail.com"
-  sender_email = "chitenderkumar.16@gmail.com"  # Enter your address
+  port = SMTP_PORT  # For SSL
+  smtp_server = SMTP_HOST
+  sender_email = SENDER_EMAIL  # Enter your address
   receiver_email = presentSubscribers  # Enter receiver address
-  password = "zsiqecltyknwwvkd"
+  password = SMTP_PASSWORD
   message = """Subject: key {key} has been updated
 
   value for {key} has been updated to {newValue}"""
