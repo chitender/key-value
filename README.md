@@ -28,7 +28,10 @@ sudo docker run --env MONGO_HOST=192.168.29.59 --env MONGO_PORT=27017 --env MONG
 ```
 curl http://localhost:80/list
 ```
-
+### List single key
+```
+curl http://localhost:80/list/keys/NAME_OF_KEY
+```
 ### Create new key value 
 ```
 curl -X POST 'http://localhost:80/create' -H "Content-Type: application/json" --data '{"key": "employee", "value": "chitender", "subscribers": "chitenderkumar.16@gmail.com"}'
