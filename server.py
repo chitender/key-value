@@ -11,16 +11,25 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import mimetypes
+import os
 
 app = Flask(__name__)
+try:
+    # Python 3.x
+    from urllib.parse import quote_plus
+except ImportError:
+    # Python 2.x
+    from urllib import quote_plus
 
 app.config['MONGO_DBNAME'] = 'data'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/data'
-SMTP_HOST = "smtp.gmail.com"
-SMTP_PORT = 465
-SENDER_EMAIL = "chitenderkumar.16@gmail.com"
-SMTP_PASSWORD = "test123"
-
+app.config['MONGO_URI'] = "mongodb://%s:%s/%s" % (
+  os.environ['MONGO_HOST'], os.environ['MONGO_PORT'], os.environ['MONGO_DB']
+)
+SMTP_HOST = os.environ['SMTP_HOST']
+SMTP_PORT = os.environ['SMTP_PORT']
+SENDER_EMAIL = os.environ['SENDER_EMAIL']
+SMTP_PASSWORD = os.environ['SMTP_PASSWORD']
+print (SMTP_PORT)
 mongo = PyMongo(app)
 
 @app.route('/list', methods=['GET'])
