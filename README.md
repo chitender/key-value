@@ -37,3 +37,9 @@ curl -X POST 'http://localhost:80/create' -H "Content-Type: application/json" --
 ```
 curl -X PUT 'http://localhost:80/update' -H "Content-Type: application/json" --data '{"key": "employee", "value": "chitender6", "subscribers": "chitenderkumar.16@gmail.com"}'
 ```
+
+### Payload
+payload has three component
+*key:* name of the key
+*value:* value for the key
+*subscriber:* email id of the subscriber to get notification on update of value
