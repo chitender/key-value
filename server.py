@@ -47,5 +47,21 @@ def add_report():
     }
   
   return jsonify({'response': response}), 201
+
+@app.route('/update', methods=['PUT'])
+def update_report():
+  stats = mongo.db.object
+  key = request.json['key']
+  newValue = request.json['value']
+  newSubscribers = request.json['subscribers']
+  documents = stats.find_one({'key': key},{"key":1, "value":1, "subscribers":1,"_id": False})
+  presentValue = documents['value']
+  presentSubscribers = documents['subscribers']
+  update = stats.find_one_and_update(
+    {"key": key},
+    {"$set":
+        {"value": newValue, "subscribers": newSubscribers}
+    },upsert=True
+  )
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0',port='80')
