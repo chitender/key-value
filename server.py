@@ -5,6 +5,12 @@ from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
 from flask import abort
+import smtplib, ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import mimetypes
 
 app = Flask(__name__)
 
@@ -63,5 +69,27 @@ def update_report():
         {"value": newValue, "subscribers": newSubscribers}
     },upsert=True
   )
+  ######## Mailing
+  port = 465  # For SSL
+  smtp_server = "smtp.gmail.com"
+  sender_email = "chitenderkumar.16@gmail.com"  # Enter your address
+  receiver_email = presentSubscribers  # Enter receiver address
+  password = "zsiqecltyknwwvkd"
+  message = """Subject: key {key} has been updated
+
+  value for {key} has been updated to {newValue}"""
+
+  context = ssl.create_default_context()
+  with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+      server.login(sender_email, password)
+      server.sendmail(sender_email, receiver_email, message.format(key=key, newValue=newValue))
+  response = {
+        'key': key,
+        'value': newValue,
+        'subscribers': newSubscribers,
+        'Description': "update success"
+    }
+  return jsonify({'response': response}), 201  
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0',port='80')
